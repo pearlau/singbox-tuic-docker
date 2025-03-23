@@ -1,0 +1,39 @@
+{
+  admin off
+  log {
+    output discard
+  }
+  default_sni $DOMAIN
+  servers :443 {
+    protocols h1 h2
+  }
+}
+
+$DOMAIN {
+  encode {
+    gzip 6
+  }
+  tls {
+    protocols tls1.3
+    curves x25519
+    alpn h2
+  }
+
+  @host {
+    host $DOMAIN
+  }
+  route @host {
+    header {
+      Alt-Svc "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"
+      Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+      X-Content-Type-Options nosniff
+      X-Frame-Options SAMEORIGIN
+      Referrer-Policy no-referrer-when-downgrade
+    }
+    file_server {
+      root /data
+      browse
+      hide .git
+    }
+  }
+}
