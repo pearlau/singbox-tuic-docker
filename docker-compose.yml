@@ -1,25 +1,4 @@
----
 services:
-  # Sing-Box
-  sing-box:
-    image: ghcr.io/eamlinux/sing-box:alpine
-    container_name: tuic
-    restart: unless-stopped
-    network_mode: host
-    cap_add:
-      - NET_ADMIN
-    environment:
-      - TZ=Asia/Shanghai
-    volumes:
-      - ./sing-box:/etc/sing-box
-      - ./caddy/data:/etc/ssl/private:ro
-    command:
-      - -c /etc/sing-box/tuic.json run
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "20m"
-        max-file: "2"
   # Caddy
   caddy:
     image: caddy/caddy:alpine
@@ -30,11 +9,37 @@ services:
     cap_add:
       - NET_ADMIN
     environment:
-      - TZ=Asia/Shanghai
+      - TZ: "Asia/Shanghai"
+    env_file:
+      - .env
     volumes:
       - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
       - ./caddy/config:/config
       - ./caddy/data:/data
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "20m"
+        max-file: "2"
+  # Sing-Box
+  sing-box:
+    image: ghcr.io/eamlinux/sing-box:alpine
+    container_name: tuic
+    restart: unless-stopped
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - TZ: "Asia/Shanghai"
+    env_file:
+      - .env
+    volumes:
+      - ./sing-box:/etc/sing-box
+      - ./caddy/data:/etc/ssl/private:ro
+    command:
+      - -c /etc/sing-box/tuic.json run
+    depends_on:
+      - caddy
     logging:
       driver: "json-file"
       options:
