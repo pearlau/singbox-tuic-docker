@@ -9,7 +9,7 @@ services:
     cap_add:
       - NET_ADMIN
     environment:
-      - TZ: "Asia/Shanghai"
+      DOMAIN: ${DOMAIN}
     env_file:
       - .env
     volumes:
@@ -30,7 +30,9 @@ services:
     cap_add:
       - NET_ADMIN
     environment:
-      - TZ: "Asia/Shanghai"
+      DOMAIN: ${DOMAIN}
+      UUID: ${UUID}
+      PASSWORD: ${PASSWORD}
     env_file:
       - .env
     volumes:
