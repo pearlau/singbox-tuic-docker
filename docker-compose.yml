@@ -8,8 +8,6 @@ services:
     privileged: true
     cap_add:
       - NET_ADMIN
-    environment:
-      DOMAIN: ${DOMAIN}
     env_file:
       - .env
     volumes:
@@ -29,10 +27,6 @@ services:
     network_mode: host
     cap_add:
       - NET_ADMIN
-    environment:
-      DOMAIN: ${DOMAIN}
-      UUID: ${UUID}
-      PASSWORD: ${PASSWORD}
     env_file:
       - .env
     volumes:
