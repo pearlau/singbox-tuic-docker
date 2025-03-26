@@ -1,0 +1,19 @@
+services:
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MARIADB_ROOT_PASSWORD: example
+      MARIADB_DATABASE: dbname
+      MARIADB_USER: dbuser
+      MARIADB_PASSWORD: dbpassword
+    volumes:
+      - ./mariadb:/var/lib/mysql
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "2"
