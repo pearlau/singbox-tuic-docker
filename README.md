@@ -1,1 +1,1 @@
-# singbox-tuic-docker
+# 请一定要更改变量`.env`
