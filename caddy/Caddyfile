@@ -3,13 +3,13 @@
   log {
     output discard
   }
-  default_sni $DOMAIN
+  default_sni ${DOMAIN}
   servers :443 {
     protocols h1 h2
   }
 }
 
-$DOMAIN {
+${DOMAIN} {
   encode {
     gzip 6
   }
@@ -20,7 +20,7 @@ $DOMAIN {
   }
 
   @host {
-    host $DOMAIN
+    host ${DOMAIN}
   }
   route @host {
     header {
@@ -31,7 +31,7 @@ $DOMAIN {
       Referrer-Policy no-referrer-when-downgrade
     }
     file_server {
-      root /data
+      root /data/fileserver
       browse
       hide .git
     }
