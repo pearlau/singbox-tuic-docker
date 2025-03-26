@@ -34,8 +34,8 @@
       "listen_port": 443,
       "users": [
         {
-          "uuid": "${UUID}",
-          "password": "${PASSWORD}"
+          "uuid": "<UUID>",
+          "password": "<PASSWORD>"
         }
       ],
       "congestion_control": "bbr",
@@ -43,7 +43,7 @@
       "heartbeat": "10s",
       "tls": {
         "enabled": true,
-        "server_name": "${DOMAIN}",
+        "server_name": "<DOMAIN>",
         "alpn": "h3",
         "min_version": "1.3",
         "cipher_suites": [
@@ -51,8 +51,8 @@
           "TLS_AES_128_GCM_SHA256",
           "TLS_AES_256_GCM_SHA384"
         ],
-        "certificate_path": "/etc/ssl/private/caddy/certificates/acme-v02.api.letsencrypt.org-directory/${DOMAIN}/${DOMAIN}.crt",
-        "key_path": "/etc/ssl/private/caddy/certificates/acme-v02.api.letsencrypt.org-directory/${DOMAIN}/${DOMAIN}.key"
+        "certificate_path": "/etc/ssl/private/caddy/certificates/acme-v02.api.letsencrypt.org-directory/<DOMAIN>/<DOMAIN>.crt",
+        "key_path": "/etc/ssl/private/caddy/certificates/acme-v02.api.letsencrypt.org-directory/<DOMAIN>/<DOMAIN>.key"
       }
     }
   ],
