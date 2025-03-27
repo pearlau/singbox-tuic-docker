@@ -1,5 +1,4 @@
 services:
-  # Caddy
   caddy:
     image: caddy/caddy:alpine
     container_name: caddy
@@ -8,9 +7,9 @@ services:
     privileged: true
     cap_add:
       - NET_ADMIN
-    env_file:
-      - .env
     volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
       - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
       - ./caddy/config:/config
       - ./caddy/data:/data
@@ -19,7 +18,7 @@ services:
       options:
         max-size: "20m"
         max-file: "2"
-  # Sing-Box
+
   sing-box:
     image: ghcr.io/eamlinux/sing-box:alpine
     container_name: tuic
@@ -27,13 +26,12 @@ services:
     network_mode: host
     cap_add:
       - NET_ADMIN
-    env_file:
-      - .env
     volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
       - ./sing-box:/etc/sing-box
       - ./caddy/data:/etc/ssl/private:ro
-    command:
-      - -c /etc/sing-box/tuic.json run
+    command: ["-c", "/etc/sing-box/tuic.json", "run"]
     depends_on:
       - caddy
     logging:
