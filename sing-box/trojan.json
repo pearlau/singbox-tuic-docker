@@ -1,0 +1,68 @@
+{
+  "log": {
+    "level": "error",
+    "timestamp": true
+  },
+  "dns": {
+    "servers": [
+      {
+        "tag": "google_dns",
+        "address": "https://dns.google/dns-query",
+        "address_resolver": "local",
+        "strategy": "prefer_ipv4",
+        "detour": "direct"
+      },
+      {
+        "tag": "local",
+        "address": "8.8.8.8",
+        "detour": "direct"
+      }
+    ],
+    "final": "google_dns"
+  },
+  "ntp": {
+    "enabled": true,
+    "interval": "10m0s",
+    "server": "time.apple.com",
+    "server_port": 123,
+    "detour": "direct"
+  },
+  "inbounds": [
+    {
+      "type": "trojan",
+      "tag": "trojan_in",
+      "listen": "127.0.0.1",
+      "listen_port": 10000,
+      "users": [
+        {
+          "name": "",
+          "password": "0000000-0000-0000-0000-00000000000"
+        }
+      ],
+      "transport": {
+        "type": "grpc",
+        "service_name": "ooxx"
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "direct",
+      "tag": "direct"
+    }
+  ],
+  "route": {
+    "rules": [
+      {
+        "protocol": "dns",
+        "action": "hijack-dns"
+      },
+      {
+        "protocol": "bittorrent",
+        "action": "reject",
+        "method": "drop"
+      }
+    ],
+    "final": "direct"
+  }
+}
