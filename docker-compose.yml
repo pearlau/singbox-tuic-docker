@@ -19,7 +19,7 @@ services:
         max-size: "20m"
         max-file: "2"
 
-  sing-box:
+  tuic:
     image: ghcr.io/eamlinux/sing-box:alpine
     container_name: tuic
     restart: unless-stopped
@@ -34,6 +34,40 @@ services:
     command: ["-c", "/etc/sing-box/tuic.json", "run"]
     depends_on:
       - caddy
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "20m"
+        max-file: "2"
+
+  shadowsocks:
+    image: ghcr.io/eamlinux/sing-box:alpine
+    container_name: shadowsocks
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      TZ: "Asia/Shanghai"
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ./sing-box:/etc/sing-box
+    command: ["-c", "/etc/sing-box/shadowsocks.json", "run"]
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "20m"
+        max-file: "2"
+
+  trojan:
+    image: ghcr.io/eamlinux/sing-box:alpine
+    container_name: trojan
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      TZ: "Asia/Shanghai"
+    volumes:
+      - ./sing-box:/etc/sing-box
+    command: ["-c", "/etc/sing-box/trojan.json", "run"]
     logging:
       driver: "json-file"
       options:
