@@ -1,0 +1,60 @@
+{
+  "log": {
+    "level": "error",
+    "timestamp": true
+  },
+  "dns": {
+    "servers": [
+      {
+        "tag": "google_dns",
+        "address": "https://dns.google/dns-query",
+        "address_resolver": "local",
+        "strategy": "prefer_ipv4",
+        "detour": "direct"
+      },
+      {
+        "tag": "local",
+        "address": "8.8.8.8",
+        "detour": "direct"
+      }
+    ],
+    "final": "google_dns"
+  },
+  "ntp": {
+    "enabled": true,
+    "server": "time.apple.com",
+    "server_port": 123,
+    "interval": "10m",
+    "detour": "direct"
+  },
+  "inbounds": [
+    {
+      "type": "shadowsocks",
+      "tag": "shadowsocks_in",
+      "listen": "::",
+      "listen_port": 9800,
+      "method": "2022-blake3-aes-128-gcm",
+      "password": "HWJ/IIarAsabBOPpI8rBBA=="
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "direct",
+      "tag": "direct"
+    }
+  ],
+  "route": {
+    "rules": [
+      {
+        "protocol": "dns",
+        "action": "hijack-dns"
+      },
+      {
+        "protocol": "bittorrent",
+        "action": "reject",
+        "method": "drop"
+      }
+    ],
+    "final": "direct"
+  }
+}
